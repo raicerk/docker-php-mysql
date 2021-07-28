@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript">
+			function seleccionado(){
+				var nombre = $("#txtNombre").val();
+				var sexo = $("#cbSexo").val();
+				var construye_url = "subir.php?nombre="+nombre+"&sexo="+sexo;
+				var archivos = document.getElementById("archivos");//Damos el valor del input tipo file
+			  	var archivo = archivos.files; //Obtenemos el valor del input (los arcchivos) en modo de arreglo
+
+			  	//El objeto FormData nos permite crear un formulario pasandole clave/valor para poder enviarlo, este tipo de objeto ya tiene la propiedad multipart/form-data para poder subir archivos
+			  	var data = new FormData();
+
+			  	//Como no sabemos cuantos archivos subira el usuario, iteramos la variable y al
+			  	//objeto de FormData con el metodo "append" le pasamos calve/valor, usamos el indice "i" para
+			  	//que no se repita, si no lo usamos solo tendra el valor de la ultima iteracion
+			  	for(i=0; i<archivo.length; i++){
+			    	data.append('archivo'+i,archivo[i]);
+			  	}
+
+
+			  	$.ajax({
+			    	url:construye_url, //Url a donde la enviaremos
+			    	type:'POST', //Metodo que usaremos
+			    	contentType:false, //Debe estar en false para que pase el objeto sin procesar
+			    	data:data, //Le pasamos el objeto que creamos con los archivos
+			    	processData:false, //Debe estar en false para que JQuery no procese los datos a enviar
+			    	cache:false //Para que el formulario no guarde cache
+			  	}).done(function(msg){
+			    	$("#cargados").append(msg); //Mostrara los archivos cargados en el div con el id "Cargados"
+			  	});
+			}
+		</script>
+	</head>
+	<body>
+		<form>
+			<div id="subir">
+				<div>
+					<span>Ingresa tu nombre</span>
+					<input type="text" value="" placeholder="" name="txtNombre" id="txtNombre"><br>
+					<span>Ingresa tu nombre</span>
+					<select name="cbSexo" id="cbSexo">
+						<option>Seleccione</option>
+						<option value="M">Masculino</option>
+						<option value="F">Femenino</option>
+					</select>
+					<br>
+				</div>
+					<input id="archivos" type="file" name="archivos[]" multiple="multiple" onchange="seleccionado();" />
+			</div>
+		</form>
+		<div id="cargados">
+  			<!-- Aqui van los archivos cargados -->
+		</div>
+	</body>
+</html>
