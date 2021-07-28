@@ -9,6 +9,8 @@ services:
       MYSQL_USER: my_username
       MYSQL_PASSWORD: my_password
       MYSQL_ROOT_PASSWORD: my_password
+    volumes:
+      - "./script/init.sql:/docker-entrypoint-initdb.d/init.sql"
     ports:
       - "3306:3306"
     restart: always
