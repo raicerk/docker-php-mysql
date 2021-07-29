@@ -32,6 +32,21 @@
 				$("#cargados").append(msg); //Mostrara los archivos cargados en el div con el id "Cargados"
 			});
 		}
+
+		$(document).ready(function(){
+			$.ajax({
+				url: "obtienerecetas.php", //Url a donde la enviaremos
+				type: 'POST', //Metodo que usaremos
+				contentType: false, //Debe estar en false para que pase el objeto sin procesar
+				data: {
+					"nombre": "juan"
+				}, //Le pasamos el objeto que creamos con los archivos
+				processData: false, //Debe estar en false para que JQuery no procese los datos a enviar
+				cache: false //Para que el formulario no guarde cache
+			}).done(function (msg) {
+				console.log(JSON.parse(msg));
+			});
+		});
 	</script>
 </head>
 
