@@ -16,12 +16,12 @@ services:
     restart: always
     
   web:
-    build: ./apache
+    build: ./php
     container_name: docker-php
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./apache/www:/var/www/html
+      - ./php/www:/var/www/html
     links:
       - mysql
